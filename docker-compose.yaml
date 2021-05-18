@@ -1,0 +1,66 @@
+version: '3.3'
+networks:
+  webapp:
+
+services:
+  nginx:
+    image: nginx:latest
+    build:
+      context: ./nginx
+    container_name: mynginx
+    restart: always
+    volumes:
+      - ./phpcode:/code
+      - ./nginx/webapp.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+    #network_mode: host
+    networks:
+      - webapp
+
+  php:
+    build:
+      context: ./phpcode
+      dockerfile: Dockerfile
+    container_name: myphp
+    restart: always
+    volumes:
+      - ./phpcode:/code
+    networks:
+      webapp:
+        aliases:
+          - php-app
+    
+    
+  mysql:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    container_name: mymysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/init/initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYDB}
+      MYSQL_ROOT_PASSWORD: ${MYPASS}
+      TZ: Asia/Tokyo
+    networks:
+      - webapp
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+
+#  adminer:
+#    image: adminer:latest
+#    container_name: myadminer
+#    restart: always
+#    ports:
+#      - "8000:8000"
+#    networks:
+#      - webapp
+      
+      
