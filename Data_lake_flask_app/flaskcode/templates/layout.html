@@ -1,0 +1,112 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <script type=text/javascript src="{{ url_for('static',filename='form-validation.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href={{ url_for("static",filename="index.css") }}></link>
+
+        <title>Find Wally</title>
+        
+        <style>
+            .form1 {
+                margin: 50px;
+                width: 500px;
+             }
+         </style>
+
+         <script>
+            function validate(){
+                var startDate = new Date($('#startdate').val());
+                var endDate = new Date($('#enddate').val());
+                if (startDate > endDate){
+                    document.getElementById('error').innerHTML = 'Start date shoud be less than End date';
+                    return alert('Start date shoud be less than End date');
+                }
+            }
+         </script>
+    </head>
+    
+    <body>
+        <header class="site-header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+            
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                </ul>
+                </div>
+            </nav>
+        </header>
+        <div>
+            {% if title %}
+                <h2><center>{{title}}</center></h2>
+            {% else %}
+                <h2><center>ウォーリーを探せ!</center></h2>
+            {% endif %}
+            <hr></hr>
+            <div class="text-left m-5" ><p>Hi, welcome to the login page !!</p></div>
+        </div>
+
+        <div class="tab-content m-5">
+            <form method="POST" action="" class="form-inline my-2 my-lg-0" name="wallysearch" id="wallysearch">
+                <div class="md-form mr-sm-2">    
+                    <label for="name" class="text-center">Name</label>
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="name" name="name" required>
+                </div>
+                <div class="md-form mr-sm-2">
+                    <label for="startdate" class="text-center">Start Date</label>
+                    <input type="date" class="form-control date" id="startdate" name="startdate">
+                </div>
+                
+                <div class="md-form mr-sm-2">
+                    <label for="enddate" class="text-center">End Date</label>
+                    <input type="date" class="form-control date" id="enddate" name="enddate">
+                </div>
+                <div class="md-form mr-sm-2">
+                    <label></label>
+                    <button class="btn btn-outline-success mt-4" type="submit" onclick="validate()">Search</button>
+                </div>
+            </form>
+            <div class="error-box" id="error"></div>
+        </div>
+        
+        <div class="form1">
+            {% block content %} {% endblock %}
+        </div>
+        
+    </body>
+</html>
