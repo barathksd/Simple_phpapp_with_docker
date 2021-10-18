@@ -1,0 +1,12 @@
+numpy
+scipy
+qtpy
+psutil
+Flask
+flask-wtf
+flask-restful
+gunicorn
+sqlalchemy
+requests
+pyyaml
+ruamel.yaml
